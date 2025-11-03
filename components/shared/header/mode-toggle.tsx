@@ -13,9 +13,14 @@ import { DropdownMenu,
 
 export default function ModeToggle() {
     const {theme, setTheme} = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true)
+    }, []);
+    if (!mounted) return null;
   return (
     <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
             <Button variant={"ghost"} className='focus-visible:ring-0 focus-visible:ring-offset-0'>
                 {theme === "system" ? (<SunMoon />):(
                     theme === "dark" ? (<MoonIcon />): (<SunIcon />)
@@ -32,6 +37,9 @@ export default function ModeToggle() {
                 </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem checked={theme === 'light'} onClick={() => setTheme('light')}>
                 Light
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem checked={theme === 'green'} onClick={() => setTheme('green')}>
+                Green
                 </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
     </DropdownMenu>
