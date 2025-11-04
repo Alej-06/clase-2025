@@ -1,47 +1,58 @@
-'use client';
-import React, { useState, useEffect} from 'react'
-import { useTheme } from 'next-themes'
-import { DropdownMenu,
-         DropdownMenuTrigger,
-         DropdownMenuLabel,
-         DropdownMenuSeparator,
-         DropdownMenuContent,
-         DropdownMenuCheckboxItem
- } from '@/components/ui/dropdown-menu'
- import { SunIcon, MoonIcon, SunMoon } from 'lucide-react';
- import { Button } from "@/components/ui/button";
+"use client";
+import React, { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu";
+import { SunIcon, MoonIcon, SunMoon, TreesIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function ModeToggle() {
-    const {theme, setTheme} = useTheme();
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => {
-        setMounted(true)
-    }, []);
-    if (!mounted) return null;
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  //cuando arranca esto se va a ejecutar
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  //si no hay nada, no dibujara nada
+  if (!mounted) return null;
+  const temas = ["system", "light", "dark", "nature","darknature"];
+  const cycleTheme = () => {
+    const t = typeof theme === "string" ? theme : "system";
+    if (t === "system") {
+      setTheme(temas[1]);
+    } else if (t === "light") {
+      setTheme(temas[2]);
+    } else if (t === "dark") {
+      setTheme(temas[3]);
+    } else if (t === "nature") {
+      setTheme(temas[4]);
+    } else if (t === "darknature") {
+      setTheme(temas[0]);
+    }
+  };
   return (
-    <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-            <Button variant={"ghost"} className='focus-visible:ring-0 focus-visible:ring-offset-0'>
-                {theme === "system" ? (<SunMoon />):(
-                    theme === "dark" ? (<MoonIcon />): (<SunIcon />)
-                )}
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-            <DropdownMenuLabel> Appearance</DropdownMenuLabel>
-            <DropdownMenuCheckboxItem checked={theme === 'system'} onClick={() => setTheme('system')}>
-                System
-                </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem checked={theme === 'dark'} onClick={() => setTheme('dark')}>
-                Dark
-                </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem checked={theme === 'light'} onClick={() => setTheme('light')}>
-                Light
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem checked={theme === 'green'} onClick={() => setTheme('green')}>
-                Green
-                </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
-  )
+    <Button
+      variant={"ghost"}
+      className="focus-visible:ring-0 focus-visible:ring-offset-0"
+      onClick={cycleTheme}
+      aria-label={`Theme: ${theme}. Click to change`}
+      title={`Theme: ${theme}. Click to change`}
+    >
+      {theme === "system" ? (
+        <SunMoon />
+      ) : theme === "dark" ? (
+        <MoonIcon />
+      ) : theme === "light" ? (
+        <SunIcon />
+      ) : (
+        <TreesIcon />
+      )}
+    </Button>
+  );
 }

@@ -20,13 +20,15 @@ export default function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const temas = ['system', 'light', 'dark', 'nature','darknature'];
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${interFont.className} antialiased`}
       >
         <ThemeProvider
-          attribute={'class'}
+           value={Object.fromEntries(temas.map((t) => [t, t]))}
+          attribute={"class"}
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
