@@ -105,7 +105,7 @@
 }
 
 .green{
-  :root {
+  .green {
   --background: oklch(0.9711 0.0074 80.7211);
   --foreground: oklch(0.3000 0.0358 30.2042);
   --card: oklch(0.9711 0.0074 80.7211);
@@ -160,7 +160,7 @@
   --spacing: 0.25rem;
 }
 
-.dark {
+.darkgreen {
   --background: oklch(0.2683 0.0279 150.7681);
   --foreground: oklch(0.9423 0.0097 72.6595);
   --card: oklch(0.3327 0.0271 146.9867);
