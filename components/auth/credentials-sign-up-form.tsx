@@ -13,6 +13,7 @@ export default function CredentialsSignUpForm() {
     const name = String(formData.get("name"));
     const email = String(formData.get("email"));
     const password = String(formData.get("password"));
+    const phone = String(formData.get("phone"));
     //Comprobaciones de los campos del formulario
     if(!name || !password || !email) return;
     console.log("Registro")
@@ -20,7 +21,8 @@ export default function CredentialsSignUpForm() {
       {
         email,
         password,
-        name
+        name,
+        phone,
       },
       {
         onRequest: () => {},
