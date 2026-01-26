@@ -10,7 +10,10 @@ export const metadata:Metadata = {
     title: "Sign-In",
 }
 
-export default function SignInPage() {
+export default async function SignInPage({searchParams}: {searchParams: Promise<{callbackUrl?: string}> ;
+}) {
+    const {callbackUrl = "/profile"} = await searchParams;
+    console.log("SearchParams: ",callbackUrl)
   return (
     <div className='w-full max-w-md mx-auto'>
         <Card>
@@ -28,7 +31,7 @@ export default function SignInPage() {
                 <CardDescription className='text-center'> Sign in with your account</CardDescription>
             </CardHeader>
             <CardContent>
-                <CredentialsSignInForm />
+                <CredentialsSignInForm callbackURL={callbackUrl}/>
             </CardContent>
         </Card>
     </div>

@@ -6,7 +6,11 @@ import { Button } from "../ui/button";
 import { signUpDefaultValues } from "@/lib/constants";
 import { authClient } from "@/lib/auth-client";
 
-export default function CredentialsSignInForm() {
+export default function CredentialsSignInForm({
+  callbackURL = "/profile"
+}:{
+  callbackURL?:string} 
+) {
   async function handleSumbit(evt:React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     const formData = new FormData(evt.currentTarget);
@@ -19,7 +23,7 @@ export default function CredentialsSignInForm() {
       {
         email,
         password,
-        callbackURL: "/profile",
+        callbackURL: callbackURL,
       },
       {
         onRequest: () => {},
