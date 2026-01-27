@@ -14,6 +14,7 @@ export default function CredentialsSignUpForm() {
     const email = String(formData.get("email"));
     const password = String(formData.get("password"));
     const phone = String(formData.get("phone"));
+    const comms = String(formData.get("comms"))
     //Comprobaciones de los campos del formulario
     if(!name || !password || !email) return;
     console.log("Registro")
@@ -23,6 +24,7 @@ export default function CredentialsSignUpForm() {
         password,
         name,
         phone,
+        comms,
       },
       {
         onRequest: () => {},
@@ -74,6 +76,40 @@ export default function CredentialsSignUpForm() {
             defaultValue={signUpDefaultValues.password}
             required
           />
+        </div>
+        <div>
+          <Label htmlFor="confpassword">Confirm Password</Label>
+          <Input
+            id="confpassword"
+            name="confpassword"
+            type="text"
+            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="terms">I agree to the terms and conditions</Label>
+          <Input
+            id="terms"
+            name="terms"
+            type="checkbox"
+            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="comms">How do you want to receive notifications?</Label>
+          <Input
+            id="comms"
+            name="comms"
+            type="radio"
+            value={"Mail"}
+            defaultChecked
+          /> Mail
+          <Input
+            id="comms"
+            name="comms"
+            type="radio"
+            value={"Phone"}
+          /> Phone
         </div>
         <div>
           <Button className="w-full" type="submit">Sign Up</Button>

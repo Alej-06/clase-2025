@@ -22,8 +22,7 @@ if (!product) notFound();
     <>
         <section className='grid grid-cols-1 md:grid-cols-5'>
         {/* Sección imágenes x2 */}
-        <div className='col-span-2'><ProductImages/></div>
-        {/* Columna detalles x2 */}
+        <div className='col-span-2'><ProductImages images={product.images}/></div>        {/* Columna detalles x2 */}
         <div className='col-span-2 p-5'>
           <div className='flex flex-col gap-6'>
             <p>

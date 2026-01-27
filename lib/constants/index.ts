@@ -8,5 +8,6 @@ export const signUpDefaultValues ={
     name: "alej",
     email: "alejandropm06@gmail.com",
     password:"a",
-    phone: "123456789"
+    phone: "123456789",
+    comms: "Mail"
 }
