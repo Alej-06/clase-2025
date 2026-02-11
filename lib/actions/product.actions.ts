@@ -2,6 +2,8 @@
 import {prisma} from "@/db/prisma";
 import { convertToPlainObject } from "../utils";
 import { Product } from "@/types/Product";
+import { insertProductSchema } from "@/lib/validators";
+import { success } from "zod";
 
 export async function getLatestProducts() {
     const data = await prisma.product.findMany({
@@ -38,4 +40,89 @@ export async function getProductBySlug(slug: string) {
         where: { slug },
     });
     return data;
+}
+
+export async function actionPrueba(formData:FormData) {
+    const rawFormData ={
+    };
+    console.log
+}
+
+// export type ProductFormState = {
+//     success:boolean,
+//     error:{
+//         name?:string[];
+//         slug?:string[];
+//         category?:string[];
+//         brand?:string[];
+//         description?:string[];
+//         stock?:string[];
+//         images?:string[];
+//         numReviews?:string[];
+//         isFeatured?:string[];
+//         price?:string[];
+//         banner?:string[];
+//         additional?:string[];
+//     };
+//     message: string;
+//     data?: Partial<Product>
+// };
+
+export type ProductFormState = {
+    success: boolean;
+    error?: { [K in keyof Product]?: string[]} & {additional?: string[] };
+    message: string;
+    data?: Partial<Product>
+}
+
+
+export async function createActionProduct(
+    prevState: ProductFormState,
+    formData: FormData
+) {
+    const rawData = Object.fromEntries(formData.entries());
+    const submittedData = {
+        ...rawData,
+        isFeatured: rawData.isFeatured === "on",
+        stock: Number(rawData.stock),
+        numReviews: Number(rawData.numReviews),
+        price: rawData.price?.toString() || "0",
+        images: ["/images/imagen.jpg"]
+    };
+    const validatedData = insertProductSchema.safeParse(submittedData);
+    if(!validatedData.success){
+        const flatened = validatedData.error.flatten((issue)=> issue.message);
+        return {
+            success: false,
+            errors: flatened.fieldErrors,
+            message: "Error de validación de los datos",
+            data:submittedData as unknown as Partial<Product>
+        }
+    }
+    try{
+        const result = await prisma.product.create({
+            data: validatedData.data
+        })
+        if(!result){
+            return {
+                success:false,
+                message: "Product not created",
+                errors: { additional: ["Product not created"]},
+                data: validatedData.data as Partial<Product>,
+            };
+        }
+        return{
+            success: true,
+            message: "Product added successfully",
+            errors: {},
+            data: validatedData as Partial<Product>
+        }
+    }catch(error){
+        return {
+                success:false,
+                message: "Product not created",
+                errors: { additional: ["Product not created"]},
+                data: validatedData.data as Partial<Product>,
+            };
+    }
 }
